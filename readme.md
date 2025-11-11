@@ -24,4 +24,4 @@ El diseño se basa en un microcontrolador ARM Cortex-M, con firmware en lenguaje
 ## Partes del Proyecto
 
 ### Definición de Requisitos y Casos de Uso del Trabajo Final
-![Documento](https://github.com/nicopotenza/tdse-tf_2-04/blob/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final.md)
+[Documento](https://github.com/nicopotenza/tdse-tf_2-04/blob/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final.md)
