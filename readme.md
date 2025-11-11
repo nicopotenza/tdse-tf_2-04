@@ -2,8 +2,8 @@
 
 ## **Autores:**
 
-*Marcos Dias (1xx.xxx)*  
-*Andrés Giacomelli (1xx.xxx)*  
+*Marcos Joel Dias Peñaranda (111.423)*  
+*Andrés Giacomelli (111.038)*  
 *Nicolás Alejandro Potenza (97.024)*
 
 **Fecha: 2do cuatrimestre 2025**

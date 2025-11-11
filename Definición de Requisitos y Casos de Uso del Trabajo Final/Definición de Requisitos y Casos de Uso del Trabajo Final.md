@@ -2,8 +2,8 @@
 
 ## **Autores:**
 
-*Marcos Dias (1xx.xxx)*  
-*Andrés Giacomelli (1xx.xxx)*  
+*Marcos Joel Dias Peñaranda (111.423)*  
+*Andrés Giacomelli (111.038)*  
 *Nicolás Alejandro Potenza (97.024)*
 
 **Fecha: 2do cuatrimestre 2025**
@@ -55,7 +55,7 @@ Tras evaluar alternativas, se selecciona el proyecto **“Control de presión pa
 
 ###### **1.4.1 Diagrama en bloques**
 
-*(Ver Figura: [DiagramaDeBloques.png](/### **5. Diagramas del sistema**))*
+*(Ver Figura 2 - Sección 5)*
 
 ---
 
@@ -137,67 +137,11 @@ Utilizado para calibración y mantenimiento técnico.
 
 ### **5. Diagramas del sistema**
 
-- **Figura 1:** Diagrama de planta del sistema (![SalaAislados.png](https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Im%C3%A1genes/SalaAislados.png)).
-- **Figura 2:** Diagrama de bloques funcional (![DiagramaDeBloques.png](https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Im%C3%A1genes/DiagramaDeBloques.png)).
+- **Figura 1:** Diagrama de planta del sistema  
+![SalaAislados.png](https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Im%C3%A1genes/SalaAislados.png)
 
-#### **5.1 Diagrama UML de Casos de Uso**
-
-```mermaid
-%%{init: {'theme':'neutral'}}%%
-usecaseDiagram
-actor Operador as Operador
-actor "Sistema Automático" as Sistema
-rectangle "Control Salas de Aislados" {
-  (Seleccionar modo)
-  (Ver estado de sala)
-  (Modificar setpoint) as ModSet
-  (Calibrar sensores)
-  (Probar actuadores)
-  (Regular presión) as Regular
-  (Generar alarma) as Alarma
-}
-Operador --> (Seleccionar modo)
-Operador --> (Ver estado de sala)
-Operador --> ModSet
-Operador --> (Calibrar sensores)
-Operador --> (Probar actuadores)
-Sistema --> Regular
-Sistema --> Alarma
-```
-
-#### **5.2 Diagrama de Estados (UML)**
-
-```mermaid
-stateDiagram-v2
-[*] --> Inicio
-Inicio --> INMUNO: seleccionar INMUNO
-Inicio --> INFECTO: seleccionar INFECTO
-Inicio --> SET_UP: seleccionar SET_UP
-
-INMUNO --> INFECTO: cambio de modo
-INFECTO --> INMUNO: cambio de modo
-INMUNO --> SET_UP: entrar a SET_UP
-INFECTO --> SET_UP: entrar a SET_UP
-SET_UP --> INMUNO: confirmar INMUNO
-SET_UP --> INFECTO: confirmar INFECTO
-
-state INMUNO {
-  [*] --> Controlando
-  Controlando --> AlarmaInmuno: ΔP(sala–antesala) < +50 Pa
-  AlarmaInmuno --> Controlando: ΔP(sala–antesala) ≥ +55 Pa (histeresis)
-}
-
-state INFECTO {
-  [*] --> Controlando
-  Controlando --> AlarmaInfecto: ΔP(sala–antesala) > −50 Pa
-  AlarmaInfecto --> Controlando: ΔP(sala–antesala) ≤ −55 Pa (histeresis)
-}
-
-SET_UP --> SET_UP: pruebas/calibración
-
-AlarmaInmuno --> INMUNO: condición normalizada
-AlarmaInfecto --> INFECTO: condición normalizada
-```
+- **Figura 2:** Diagrama de bloques funcional  
+![DiagramaDeBloques.png](https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Im%C3%A1genes/DiagramaDeBloques.png)
 
 ---
 
