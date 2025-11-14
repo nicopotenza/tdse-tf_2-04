@@ -18,6 +18,14 @@ Las salas de aislados son áreas hospitalarias críticas diseñadas para mantene
 
 El control de presión diferencial entre la **sala**, la **antesala** y el **pasillo** se realiza habitualmente mediante sistemas de ventilación con compuertas y ventiladores regulados. En este proyecto se propone desarrollar un **control embebido autónomo** que gestione la presión diferencial actuando sobre una **persiana modulante de retorno**, utilizando sensores de presión diferencial y una interfaz de usuario local. 
 
+-Persiana modulante de retorno: Una persiana modulante de retorno es una compuerta en el circuito de aire de retorno que se abre y cierra de forma proporcional, para regular y equilibrar el flujo de aire en un sistema de climatización.
+Cumple las funciones de:
+
+Mantener el equilibrio de presiones en el sistema
+Mezclar aire de retorno con aire exterior (ventilación)
+Regular el caudal por control de CO₂ o temperatura
+Controlar la purga o recirculación del aire
+
 Se busca así un sistema confiable, de bajo costo y fácilmente replicable en entornos hospitalarios, cumpliendo con los lineamientos de seguridad establecidos por normativas internacionales como **ASHRAE 170 (Ventilation of Health Care Facilities)** y las recomendaciones de la **CDC (Centers for Disease Control and Prevention)** para ambientes críticos.
 
 #### **1.2 Objetivo del proyecto y resultados esperados**
@@ -31,6 +39,7 @@ El objetivo principal es **diseñar e implementar un sistema de control de presi
 - Accionar una persiana de retorno modulante para estabilizar la presión.
 - Proveer alarmas visuales y sonoras ante condiciones anómalas.
 - Permitir calibración y configuración de parámetros en modo SET_UP.
+
 
 **Resultados esperados:**
 - Prototipo funcional del sistema embebido basado en microcontrolador ARM.
