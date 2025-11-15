@@ -1,0 +1,5 @@
+../app/src/task_system.c:91:6:task_system_init	56	static,ignoring_inline_asm
+../app/src/task_system.c:133:6:task_system_update	24	static,ignoring_inline_asm
+../app/src/task_system.c:183:6:task_system_statechart_SET_UP	16	static
+../app/src/task_system.c:251:6:task_system_statechart_INMUNO	16	static
+../app/src/task_system.c:319:6:task_system_statechart_INFECTO	16	static

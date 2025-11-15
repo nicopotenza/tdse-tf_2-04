@@ -1,0 +1,23 @@
+  task_sensor.c (task_sensor.h, task_sensor_attribute.h) 
+   Non-Blocking & Update By Time Code -> Sensor Modeling
+ 
+  
+Hay una lista de configuraciones:
+task_sensor_cfg_list define que pines son botones o sensores y que eventos debe disparar 
+task_sensor_dta_list guarda el estado actual de cada boton 
+task_sensor_statechart que actualiza los estados segun lo que lee
+
+void task_sensor_init:
+Resetea contadores globales e inicializa el estado de cada boton como ST_BTN_XX_UP, tambien inicializa el evento como no presionado EV_BTN_XX_UP
+
+void task_sensor_update:
+Utiliza un tick para ver cuando debe actualizar algo usando condiciiones if en esto, Si hay tiempo pendiente decrementa el tick
+ y ejecuta la maquina de estados 
+ 
+ void task_sensor_statechart:
+  Según el previo estado toma decisiones:
+  Si estaba en ST_BTN_XX_UP y ahora el evento es EV_BTN_XX_DOWN, esto dispara el evento 
+  put_event_task_system(p_task_sensor_cfg->signal_down) que hace que pase al estado ST_BTN_XX_DOWN
+  Si estaba en ST_BTN_XX_DOWN el evento es EV_BTN_XX_UP, dispara una signal_up haciendo que el estado
+   pase a ST_BTN_XX_UP,
+ST_BTN_XX_RISING y ST_BTN_XX_FALLING estan declarados pero todavia no implementados 

@@ -1,0 +1,57 @@
+  app.c (app.h)
+   Endless loops, which execute tasks with fixed computing time. This 
+   sequential execution is only deviated from when an interrupt event occurs.
+   Cyclic Executive (Update by Time Code, period = 1mS)
+
+...
+
+tipos de datos
+estructuras de datos
+arrays de estructuras de datos
+métodos
+patrones de diseño de software
+
+evolución de sysTick y SystemCoreClock desde reset hasta app_init()
+evolución de g_app_runtime_us, variable global de app_update()
+evolución de WCET contenido en el array de estructuras de datos de tareas
+impacto de LOGGER_INFO() en g_app_runtime_us
+impacto de LOGGER_INFO() en WCET
+
+
+Este archivo contiene la estructura de funcionamiento de la aplicación.
+
+Para empezar, se incluyen las siguientes bibliotecas:
+- logger.h
+- dwt.h
+- board.h
+- task_system.h
+- task_actuator.h
+- task_sensor.h
+
+Se crean las constantes:
+- G_APP_CTN_INI
+- G_APP_TICK_CNT_INIT
+- TASK_X_WET_INI
+- TASK_X_DELAY_INI
+
+Se crean dos estructuras:
+- task_cfg_t, la cual estructura como deben ser los prototipos de las tareas. En particular, las funciones init, update y los parámetros que reciben.
+- task_dta_t, la cual contiene la variable WCET, contador de peor caso de ejecución.
+
+Se crea un vector constante task_cfg_list[], el cual contiene los nombres de las funciones init y update de sensor, system y actuator.
+
+Se crea una constante TASK_QTY con la cantidad de tareas declaradas en task_cfg_list[]. Luego será usada para el for que recorre todas las tareas en orden.
+
+Función app_init(): inicializa la aplicación.
+inicializa el valor de g_app_cnt en G_APP_CNT_INI (0).
+Invoca a cycle_counter_init(), inicializador del contador de ciclos.
+Inicializa, en orden, todas las tareas, y crea un contador WCET por cada una, inicialmente en TASK_X_WCET_INI (0).
+Iniciializa g_app_tick_cnt, g_task_sensor_tick_cnt, g_task_system_tick_cnt y g_task_actuator_tick_cnt en G_APP_TICK_CNT_INI.
+
+Función app_update(): actualiza la aplicación:
+Si se incrementó el valor de g_app_tick_cnt por encima de G_APP_TICK_CNT_INI (0), es necesario actualizar las tareas. Esta acción la realiza con las interrupciones deshabilitadas.
+Mientras que sea necesario actualizar, incrementa la variable g_app_cnt y pone en 0 g_app_runtime_us.
+Luego recorre cada tarea de actualización. Para esto resetear el contador de ciclos, llama al update de la tarea, lee la cantidad de us que demoró su ejecución, y si fue mayor que la peor ejecución de la tarea, lo guarda como el nuevo peor caso.
+Luego de recorrer todas las tareas, verifica si es necesaria una nueva actualización y de no ser necesaria finaliza el bucle.
+
+Función HAS_SYSTICK_Callback(): es la interrupción que actualiza el contador de las tareas.

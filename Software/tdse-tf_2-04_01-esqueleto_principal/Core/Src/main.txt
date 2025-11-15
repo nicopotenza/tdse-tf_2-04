@@ -1,0 +1,12 @@
+archivo principal del programa.
+
+Se incluyen las bibliotecas logger.h y app.h.
+
+Se declara globalmente la variable huart2.
+
+Al iniciar el main(), si por procesador se resolvió que LOGGER_CONFIG_USE_SEMIHOSTING = 1, se inicializa el monitor_handles.
+En forma general, se inicializa HAL, se configura el SystemClock. y se inicializan los puertos GPIO y la USART2.
+Finalmente se invoca a la función app_init(), para inicializar mi aplicación.
+En el bucle infinito solamente actualiza la aplicación, invocando a app_update().
+
+Luego, fuera del main() se encuentran las declaraciones de las funciones SystemClock_Config(), MX_USART2_UART_Init(), MX_GPIO_Init() y Error_Handler().
