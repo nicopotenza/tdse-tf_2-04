@@ -172,4 +172,3 @@ El diseño propuesto toma como referencia las normas **ASHRAE 170 – Ventilatio
 | **Continuidad de control y respuesta rápida** | ASHRAE 170: restablecimiento rápido tras perturbaciones | RNF2 define un tiempo de respuesta ≤ 2 s ante variaciones de presión. |
 
 En conjunto, el proyecto **cumple o supera** los criterios esenciales de diseño y seguridad establecidos por ambas normas, asegurando una operación confiable y adecuada para entornos hospitalarios de aislamiento.
-
