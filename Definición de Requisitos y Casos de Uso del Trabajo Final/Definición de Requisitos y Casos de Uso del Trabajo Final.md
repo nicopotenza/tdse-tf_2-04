@@ -1,4 +1,4 @@
-# **Control para Salas de Aislados**
+# **Control para salas de aislados**
 
 ## **Autores:**
 
@@ -23,7 +23,9 @@ Cumple las funciones de:
 - Mantener el equilibrio de presiones en el sistema.
 - Mezclar aire de retorno con aire exterior (ventilación).
 
-Se busca así un sistema confiable, de bajo costo y fácilmente replicable en entornos hospitalarios, cumpliendo con los lineamientos de seguridad establecidos por normativas internacionales como **ASHRAE 170 (Ventilation of Health Care Facilities)** y las recomendaciones de la **CDC (Centers for Disease Control and Prevention)** para ambientes críticos.
+Se busca así un sistema confiable, de bajo costo y fácilmente replicable en entornos hospitalarios, cumpliendo con determinados lineamientos de seguridad establecidos por normativas internacionales como **ASHRAE 170 (Ventilation of Health Care Facilities)** y las recomendaciones de la **CDC (Centers for Disease Control and Prevention)** para ambientes críticos.
+
+Sin embargo no es el objetivo, al menos en esta primera instancia, llegar a un producto comercializable, ya que para eso sería necesario realizar una revisión mucho más exhaustiva a las normativas nacionales/internacionales vigentes, y realizar controles mucho más estrictos en el funcionamiento de este primer prototipo, lo que estalaría la complejidad por encima de lo buscado en un proyecto de mitad de carrera de ingeniería.
 
 #### **1.2 Objetivo del proyecto y resultados esperados**
 
@@ -48,7 +50,7 @@ El objetivo principal es **diseñar e implementar un sistema de control de presi
 
 Existen sistemas comerciales de control de presión hospitalaria, como los módulos de monitoreo **Setra Lite**, **Tsi Pressure Monitor** o **Honeywell Room Pressure Monitor**, que ofrecen medición y alarmas visuales, pero suelen tener un alto costo y escasa posibilidad de personalización.  
 
-El proyecto propuesto busca **una alternativa académica y didáctica**, implementable con hardware de disponibilidad local (sensores analógicos, controladores ARM o STM32, actuadores estándar), reduciendo costos y fomentando la comprensión del lazo de control.
+El proyecto propuesto busca **una alternativa académica y didáctica**, implementable con hardware de disponibilidad local (sensores analógicos, controladores ARM STM32, actuadores estándar), reduciendo costos y fomentando la comprensión del lazo de control.
 
 #### **1.4 Selección del proyecto**
 
@@ -144,10 +146,10 @@ Utilizado para calibración y mantenimiento técnico.
 ### **5. Diagramas del sistema**
 
 - **Figura 1:** Diagrama de planta del sistema  
-![SalaAislados.png](https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Im%C3%A1genes/SalaAislados.png)
+![SalaAislados](https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Im%C3%A1genes/SalaAislados.png)
 
 - **Figura 2:** Diagrama de bloques funcional  
-![DiagramaDeBloques.png](https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Im%C3%A1genes/DiagramaDeBloques.png)
+![DiagramaDeBloques](https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Im%C3%A1genes/DiagramaDeBloques.png)
 
 ---
 
@@ -171,5 +173,4 @@ El diseño propuesto toma como referencia las normas **ASHRAE 170 – Ventilatio
 | **Indicadores visuales locales** | ASHRAE 170: visualización del estado en accesos | El display muestra presiones y modo activo antes del ingreso. |
 | **Continuidad de control y respuesta rápida** | ASHRAE 170: restablecimiento rápido tras perturbaciones | RNF2 define un tiempo de respuesta ≤ 2 s ante variaciones de presión. |
 
-En conjunto, el proyecto **cumple o supera** los criterios esenciales de diseño y seguridad establecidos por ambas normas, asegurando una operación confiable y adecuada para entornos hospitalarios de aislamiento.
-
+En conjunto, el proyecto **cumple o supera** los criterios mencionados de diseño y seguridad establecidos por ambas normas para entornos hospitalarios de aislamiento. Sin embargo, como se mencionó anteriormente, deberían analizarte las normativas vigentes en mayor profundidas para llevar, en una próxima instancia, el prototipo a un producto comercializable.
