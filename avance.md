@@ -4,8 +4,11 @@
 
 
 **Marcos Joel Dias Peñaranda – Padrón 111423**
+
 **Nicolas Alejandro Potenza – Padrón 97024**
+
 **Andres Giacomelli – Padrón 111038**
+
 **Fecha: 01/02/2026**
 
 **2do cuatrimestre / 2025**
