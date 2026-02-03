@@ -83,4 +83,4 @@ A continuación se detalla el informe de avances del sistema a partir de los req
 | 5.2 | El usuario debe poder cambiar el modo de operación mediante el teclado. | 🟢 |
 | 5.3 | Deben existir tres modos de operación: **INMUNO**, **INFECTO** y **SET_UP**, seleccionables mediante el teclado. | 🟢 |
 
-04/blob/main/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final/Definici%C3%B3n%20de%20Requisitos%20y%20Casos%20de%20Uso%20del%20Trabajo%20Final.md)
+
