@@ -22,7 +22,6 @@ Legajo: 97.024
 *Este trabajo fue realizado en la Ciudad Autónoma de Buenos Aires,  
 entre noviembre de 2025 y febrero de 2026.*
 
----
 
 ## Resumen
 
@@ -73,12 +72,13 @@ entre noviembre de 2025 y febrero de 2026.*
   - [4.2 Pruebas funcionales del firmware](#)
   - [4.3 Pruebas de integración](#)
   - [4.4 Comparación con otros sistemas similares](#)
+  - [4.5 Documentacion del Desarrollo Realizado](#)
 - [**Conclusiones**](#conclusiones)
   - [5.1 Resultados obtenidos](#)
   - [5.2 Próximos pasos](#)
+- [**Uso de IA**]
 - [**Bibliografía**](#bibliografía)
 
----
 
 # Registro de versiones
 
@@ -86,7 +86,7 @@ entre noviembre de 2025 y febrero de 2026.*
 | :---: | ----- | ----- |
 | 1.0 | Creación del documento | 27/02/2026 |
 
----
+
 
 # **Capítulo 1**  
 # **Introducción general** 
@@ -97,12 +97,12 @@ Las salas de aislados son áreas hospitalarias críticas diseñadas para mantene
 
 El control de presión diferencial entre la **habitación**, la **sala previa** y el **pasillo** se realiza habitualmente mediante sistemas de ventilación con compuertas y ventiladores regulados. En este proyecto se propone desarrollar un **control embebido autónomo** que gestione la presión diferencial actuando sobre una **persiana modulante de retorno**, utilizando sensores de presión diferencial y una interfaz de usuario local. 
 
-Persiana modulante de retorno: Una persiana modulante de retorno es una compuerta en el circuito de aire de retorno que se abre y cierra de forma proporcional, para regular y equilibrar el flujo de aire en un sistema de climatización.
+ Una persiana modulante de retorno es una compuerta en el circuito de aire de retorno que se abre y cierra de forma proporcional, para regular y equilibrar el flujo de aire en un sistema de climatización.
 Cumple las funciones de:
 - Mantener el equilibrio de presiones en el sistema.
 - Mezclar aire de retorno con aire exterior (ventilación).
 
-Se busca así un sistema confiable, de bajo costo y fácilmente replicable en entornos hospitalarios, cumpliendo con los lineamientos de seguridad establecidos por normativas internacionales como **ASHRAE 170 (Ventilation of Health Care Facilities)** y las recomendaciones de la **CDC (Centers for Disease Control and Prevention)** para ambientes críticos.
+Se busca así un sistema confiable, de bajo costo y fácilmente replicable en entornos hospitalarios, que en lo posible siga los lineamientos de seguridad establecidos por normativas internacionales como **ASHRAE 170 (Ventilation of Health Care Facilities)** y las recomendaciones de la **CDC (Centers for Disease Control and Prevention)** para ambientes críticos.
 
 ## **1.2 Objetivo del proyecto y resultados esperados**
 
@@ -136,19 +136,40 @@ El proyecto propuesto busca **una alternativa académica y didáctica**, impleme
 
 ## **1.4 Selección del proyecto**
 
-Tras evaluar alternativas, se selecciona el proyecto **“Control de presión para salas de aislados”** por las siguientes razones:
+En la Figura 1.2 se muestra el diagrama de bloques funcional del proyecto.
 
-- Alta relevancia sanitaria y aplicabilidad práctica.
-- Posibilidad de implementación con hardware disponible en el mercado argentino.
-- Alcance de complejidad adecuado para un proyecto integrador de sistemas embebidos.
-- Interés personal y profesional de los autores en el área de automatización y control ambiental.
+El sistema propuesto está basado en una arquitectura centralizada con un microcontrolador como unidad de procesamiento principal, encargado de adquirir datos, procesarlos y controlar los distintos dispositivos de salida.
 
-A continuación, en la Figura 1.2, puede visualizarse el diagrama de bloques funcional del proyecto.
+**Entradas del sistema**
 
+Sensores de presión diferencial (2 unidades):
+Se conectan al microcontrolador mediante el módulo ADC (Conversor Analógico-Digital), ya que entregan señales analógicas. El microcontrolador digitaliza estas señales para su posterior procesamiento.
+
+**Teclado (cuatro botones):**
+Se conecta a través de pines GPIO, permitiendo la interacción del usuario para configuración, navegación por menús o modificación de parámetros.
+
+**Comunicación y almacenamiento**
+
+Memoria EEPROM (E²PROM):
+Se comunica con el microcontrolador mediante el protocolo I2C. Se utiliza para almacenar parámetros de configuración, valores de calibración o datos que deben conservarse aun cuando el sistema se apague.
+
+Display LCD (4x20):
+También conectado mediante I2C, permite mostrar información al usuario como valores de presión, estados del sistema, alarmas y configuraciones.
+
+**Salidas del sistema**
+
+Persiana modulante (1 actuador):
+Controlada mediante una señal PWM (Modulación por Ancho de Pulso). Esto permite regular de manera proporcional la apertura o posición del actuador.
+
+Alarma sonora (1 buzzer):
+Controlada por un pin GPIO, se activa ante condiciones anómalas o estados de alerta detectados por el sistema.
+
+Luces indicadoras (4 LEDs):
+También conectadas por GPIO, se utilizan para indicar distintos estados de funcionamiento (normal, alarma, configuración, error, etc.).
 <p align="center"><img src="https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/MaterialApoyo/Im%C3%A1genes/DiagramaDeBloques.png" alt="planta" width="90%"><br>
 <em><b>Figura 1.2:</b> Diagrama de bloques funcional</em></p>
 
----
+
 
 # **Capítulo 2**  
 # **Introducción específica** 
@@ -258,10 +279,7 @@ En la Figura 2.3 se puede observar una imagen del módulo de memoria utilizado.
 <em><b>Figura 2.3:</b> Imagen de la memoria EEPROM AT24C08</em></p>
 
 ### **2.4.4 Servomotor**
-El servomotor es un actuador electromecánico para controlar con precisión la posición angular de un eje. Integra un motor de corriente continua, un sistema de engranajes y un circuito de control interno que ajusta la posición según una señal eléctrica de mando. 
-
-Se controla mediante una señal PWM proveniente del microcontrolador, que determina el ángulo de giro dentro de un rango limitado (típicamente entre 0° y 180°).  
-
+El servomotor es un actuador electromecánico para controlar con precisión la posición angular de un eje. Integra un motor de corriente continua, un sistema de engranajes y un circuito de control interno que ajusta la posición según una señal eléctrica de mando. Se controla mediante una señal PWM proveniente del microcontrolador, que determina el ángulo de giro dentro de un rango limitado (típicamente entre 0° y 180°).  
 Fue utilizado para controlar la persiana modulante de retorno de la habitacion.
 
 En la Figura 2.4 se puede observar una imagen del servomotor utilizado.
@@ -279,20 +297,18 @@ En la Figura 2.5 se puede observar una imagen del módulo de botones utilizado.
 <p align="center"><img src="https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/MaterialApoyo/Im%C3%A1genes/botones.png" alt="memoria" width="50%"><br>
 <em><b>Figura 2.5:</b> Imagen del módulo de 4 botones</em></p>
 
-### **2.4.6  Luces Leds**
-Los LEDs (diodos emisores de luz) son dispositivos de salida para indicar visualmente estados o condiciones de funcionamiento del sistema. Emiten luz cuando circula corriente a través de ellos en polarización directa. 
+### **2.4.6  Luces LEDs**
+Los LEDs (diodos emisores de luz) se usan para indicar visualmente estados o condiciones de funcionamiento del sistema. Emiten luz cuando circula corriente a través de ellos en polarización directa. 
 
 Se emplean comúnmente como indicadores de encendido, alerta o actividad. En nuestro caso fue utilizada para permitir al sistema generar indicaciones visuales rápidas ante condiciones dentro o fuera de rango. Requirieron una resistencia limitadora de corriente en serie para evitar daños por exceso de corriente. Se controlan desde pines de salida digitales del microcontrolador.
 
-En la Figura 2.6 se puede observar una imagen de leds similares a los utilizados.
+En la Figura 2.6 se puede observar una imagen de LEDs similares a los utilizados.
 
 <p align="center"><img src="https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/MaterialApoyo/Im%C3%A1genes/leds.png" alt="leds" width="50%"><br>
 <em><b>Figura 2.6:</b> Imagen de LEDs</em></p>
 
 ### **2.4.7  Buzzer**
-El buzzer es un dispositivo de salida sonora utilizado en sistemas embebidos para generar señales acústicas de aviso, alerta o confirmación. Convierte una señal eléctrica en sonido mediante un elemento piezoeléctrico o electromecánico interno. 
-
-Se controla desde un pin de salida del microcontrolador, ya sea mediante una señal digital o una señal PWM para variar el tono o el patrón de sonido, y se empleó para la indicación sonora de valores medidos fuera de rango.
+El buzzer se utiliza en sistemas embebidos para generar señales acústicas de aviso, alerta o confirmación. Convierte una señal eléctrica en sonido mediante un elemento piezoeléctrico o electromecánico interno. Se controla desde un pin de salida del microcontrolador, ya sea mediante una señal digital o una señal PWM para variar el tono o el patrón de sonido, y se empleó para la indicación sonora de valores medidos fuera de rango.
 
 En la Figura 2.6 se puede observar una imagen del buzzer utilizado.
 
@@ -316,7 +332,7 @@ En la Figura 2.8 se puede observar una imagen del potenciometro utilizado.
 <p align="center"><img src="https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/MaterialApoyo/Im%C3%A1genes/potenciometros.png" alt="potenciometros" width="50%"><br>
 <em><b>Figura 2.8:</b> Imagen de Potenciómetro</em></p>
 
----
+
 
 # **Capítulo 3**  
 # **Diseño e implementación** 
@@ -347,7 +363,7 @@ Dentro de este modo, el primer paso es leer la información cargada de la memori
 * **Desvío de presión sala-habitación:** permite configurar el desvío aceptable de la presión actual respecto de la seteada.
 * **Prueba de actuador:** permite probar la posición del actuador. Útil para calibración del mismo durante la instalación y mantenimiento.
 
-Durante este modo se dispone de 4 botones útiles para operar:
+Durante este modo se dispone de cuatro botones útiles para operar:
 - **Back:** para retroceder al menú anterior. Si está en **Modo*, vuelve al modo de operación actual sin cambios.
 - **Enter:** Para pasar al siguiente menú. Si está en **Prueba de actuador**, almacena los valores nuevos en la memoria y pasa al modo seleccionado.
 - **Up:** para aumentar el valor actual.
@@ -355,15 +371,15 @@ Durante este modo se dispone de 4 botones útiles para operar:
 
 #### **3.1.1.2 Modos INFECTO e INMUNO**
 
-Dentro de este modo, el primer paso es permitir que las presiones se estabilicen. Para esto se esperan 5 segundos, durante los cuales el actuador se posiciona en función del valor medido por el sensor de presión sala-habitación.
+Dentro de este modo, el primer paso es permitir que las presiones se estabilicen. Para esto se esperan cinco segundos, durante los cuales el actuador se posiciona en función del valor medido por el sensor de presión sala-habitación.
 
 Luego, pasa a alguno de los modos siguientes:
 
 * **Normal:** si las presiones están dentro de los rangos de setpoint ± desvío, está en este modo. Acá, la alarma sonora está apagada y los indicadores visuales verdes están encendidos. Si en algún momento una de las presiones sale de rango, se pasa a modo **Alerta*.
 
-* **Alerta:** si alguna de las presiones está fuera del rango deseado, se indica en la pantalla. La alarma sonora se activa en modo intermitente y la indicación visual de la presión fuera de rango pasa de verde a rojo intermitente. Si esto se corrige, vuelve al modo **Normal**. En caso de superar 3 segundos sin corrección, pasa a **Alarma**.
+* **Alerta:** si alguna de las presiones está fuera del rango deseado, se indica en la pantalla. La alarma sonora se activa en modo intermitente y la indicación visual de la presión fuera de rango pasa de verde a rojo intermitente. Si esto se corrige, vuelve al modo **Normal**. En caso de superar tres segundos sin corrección, pasa a **Alarma**.
 
-* **Alarma:** si alguna de las presiones está fuera del rango deseado por más de 3 segundos, se indica en la pantalla. La alarma sonora se enciende de forma fija y la indicación visual de la presión fuera de rango pasa rojo intermitente a fijo. Si esto se corrige, vuelve al modo **Normal**.
+* **Alarma:** si alguna de las presiones está fuera del rango deseado por más de tres segundos, se indica en la pantalla. La alarma sonora se enciende de forma fija y la indicación visual de la presión fuera de rango pasa rojo intermitente a fijo. Si esto se corrige, vuelve al modo **Normal**.
 
 En cualquier modo, si se presiona el botón **Enter**, pasa al modo de *SET_UP*.
 
@@ -379,7 +395,7 @@ El hardware de los botones que componen el teclado se detalla en la Figura 3.1.
 <em><b>Figura 3.1:</b> Conexionado Botones</em></p>
 
 ### **3.2.2 Firmware**
-Utilizando las máquinas de estado para el control de pulsadores vistas en la cátedra, se realizó una máquina para relevar el estado de los 4 pulsadores.  
+Utilizando las máquinas de estado para el control de pulsadores vistas en la cátedra, se realizó una máquina para relevar el estado de los cuatro pulsadores.  
 Dependiendo del estado del botón físico, se indica al sistema si está presionado o no.  
 Adicionalmente, tiene incorporada la lógica de antirebote para evitar falsas pulsaciones.
 
@@ -391,7 +407,7 @@ El hardware de los LED que componen las indicaciones visuales se detalla en la F
 <em><b>Figura 3.2:</b> Conexionado Leds</em></p>
 
 ### **3.3.2 Firmware**
-Utilizando las máquinas de estado para el control de LEDs vistas en la cátedra, se realizó una máquina para controlar el estado de los 4 leds. Los modos de funcionamiento que tiene desarrollados son:
+Utilizando las máquinas de estado para el control de LEDs vistas en la cátedra, se realizó una máquina para controlar el estado de los 4 LEDs. Los modos de funcionamiento que tiene desarrollados son:
 
 * **ST_LED_OFF:** el LED permanece apagado.
 * **ST_LED_ON:** el LED permanece encendido.
@@ -416,10 +432,7 @@ El hardware de los potenciómetro que componen la simulación de los sensores se
 <em><b>Figura 3.4:</b> Conexionado potenciómetros</em></p>
 
 ### **3.5.2 Firmware**
-utilizando la arquitectura de FSM de la cátedra se adaptó para leer dos entradas analógicas del procesador.  
-Cuando inicia el loop, la tarea queda en el estado de inactivo. Al recibirse un pedido de lectura, para al estado de espera (ST_TXPRESION_WAIT).  
-En el estado de espera, se espera una medición y al obtenerse de indica mediante un evento al sistema que ya está disponible la lectura.  
-Esta lectura se adapta de un valor medido por el ADC (0 a 4095) a un valor de pascales consistente con el valor que transmite el sensor (en este caso -125 a 125 Pa). De esa forma, el procesamiento del sensor queda encapsulado y el sistema ya tiene el valor listo para utilizarlo.
+Utilizando la arquitectura de FSM de la cátedra se adaptó para leer dos entradas analógicas del procesador.  Cuando inicia el loop, la tarea queda en el estado de inactivo. Al recibirse un pedido de lectura, para al estado de espera (ST_TXPRESION_WAIT).  En el estado de espera, se espera una medición y al obtenerse de indica mediante un evento al sistema que ya está disponible la lectura.  Esta lectura se adapta de un valor medido por el ADC (0 a 4095) a un valor de pascales consistente con el valor que transmite el sensor (en este caso -125 a 125 Pa). De esa forma, el procesamiento del sensor queda encapsulado y el sistema ya tiene el valor listo para utilizarlo.
 
 ## **3.6 Actuador de persiana**
 ### **3.6.1 Hardware**
@@ -429,11 +442,7 @@ El hardware del servomotor utilizado como actuador de persiana se detalla en la 
 <em><b>Figura 3.5:</b> Conexionado servomotor</em></p>
 
 ### **3.6.2 Firmware**
-utilizando la arquitectura de FSM de la cátedra se adaptó para controlar un servomotor por PWM.  
-Cuando inicia el loop, el servomotor está deshabilitado (ST_SERVO_DISABLED). En este estado no se controla su posición.
-Al pasar al estado de inactivo (ST_SERVO_IDLE), el servomotor está habilitado y comienza a controlar su posición.  
-Si se cambia el valor del ángulo (indicado en porcentaje), pasa al estado de movimiento (ST_SERVO_MOVING), el cual mueve el servomotor en forma progresiva hasta la nueva posición. De esta forma se evitan los movimientos bruscos, que en el caso de persianas mecánicas podrían generar inestabilidad en el sistema e incluso dañarlas.  
-Cuando llega a la nueva posición, vuelve al estado de inactivo.
+Utilizando la arquitectura de FSM de la cátedra se adaptó para controlar un servomotor por PWM.  Cuando inicia el loop, el servomotor está deshabilitado (ST_SERVO_DISABLED). En este estado no se controla su posición. Al pasar al estado de inactivo (ST_SERVO_IDLE), el servomotor está habilitado y comienza a controlar su posición. Si se cambia el valor del ángulo (indicado en porcentaje), pasa al estado de movimiento (ST_SERVO_MOVING), el cual mueve el servomotor en forma progresiva hasta la nueva posición. De esta forma se evitan los movimientos bruscos, que en el caso de persianas mecánicas podrían generar inestabilidad en el sistema e incluso dañarlas. Cuando llega a la nueva posición, vuelve al estado de inactivo.
 
 ## **3.7 Memoria EEPROM**
 ### **3.7.1 Hardware**
@@ -443,9 +452,7 @@ El hardware de la memoria EEPROM se detalla en la Figura 3.6.
 <em><b>Figura 3.6:</b> Conexionado memoria EEPROM</em></p>
 
 ### **3.7.2 Firmware**
-utilizando la arquitectura de FSM de la cátedra se adaptó para trabajar con una memoria EEPROM mediante I²C. Para esto se consultó la lista de comandos en la bibliografía del fabricante [3].  
-Para su funcionamiento, tiene una tabla del tamaño de la memoria, la cual permite que se lea o escriban los datos ahí para luego ser enviados a la memoria o procesados por el sistema.  
-Por defecto, el loop queda en el estado de espera. Cuando se recibe un evento, empieza la el proceso de escritura (ST_MEM_WRITE) o lectura (ST_MEM_SET_ADDRESS).  
+Utilizando la arquitectura de FSM de la cátedra se adaptó para trabajar con una memoria EEPROM mediante I²C. Para esto se consultó la lista de comandos en la bibliografía del fabricante [3]. Para su funcionamiento, tiene una tabla del tamaño de la memoria, la cual permite que se lea o escriban los datos ahí para luego ser enviados a la memoria o procesados por el sistema. Por defecto, el loop queda en el estado de espera. Cuando se recibe un evento, empieza la el proceso de escritura (ST_MEM_WRITE) o lectura (ST_MEM_SET_ADDRESS).  
 
 #### **3.7.2.1 Escritura**
 Para escribir en la memoria, primero se consulta si la interfaz I²C está disponible. En caso afirmativo, se procesa la posición de memoria que debe leerle, se envía a la memoria EEPROM la indicación de que se va a escribir y pasa al estado de escribiendo ST_MEM_WRITING.  
@@ -462,13 +469,9 @@ El hardware del display LCD y su adaptador a I²C se detalla en la Figura 3.7.
 <em><b>Figura 3.6:</b> Conexionado Display LCD</em></p>
 
 ### **3.8.2 Firmware**  
-utilizando la arquitectura de FSM de la cátedra se adaptó para trabajar con un Display LCD mediante I²C. Para esto se consultó la lista de comandos en la bibliografía del fabricante [4][5].  
+Utilizando la arquitectura de FSM de la cátedra se adaptó para trabajar con un Display LCD mediante I²C. Para esto se consultó la lista de comandos en la bibliografía del fabricante [4][5].  
 
-En su funcionamiento básico, cuenta con una memoria temporal que almacena una matriz correspondiente al tamaño del display. Los pedidos de escritura modifican esa matriz, y luego, cuando se recibe el evento de escritura del display, se vuelca esta información a la pantalla física.
-
-De esa forma es posible escribir una pantalla de cualquier tamaño, sin importar el tiempo que lleve ni afectar al resto del procesamiento.
-
-Para eso, se realizó una máquina de estados que en su inicialización configure la inicialización del display LCD. Cómo esto no forma parte del loop, se decidió que esta tarea tenga código bloqueante, para asegurar la correcta configuración del módulo.
+En su funcionamiento básico, cuenta con una memoria temporal que almacena una matriz correspondiente al tamaño del display. Los pedidos de escritura modifican esa matriz, y luego, cuando se recibe el evento de escritura del display, se vuelca esta información a la pantalla física. De esa forma es posible escribir una pantalla de cualquier tamaño, sin importar el tiempo que lleve ni afectar al resto del procesamiento. Para eso, se realizó una máquina de estados que en su inicialización configure la inicialización del display LCD. Cómo esto no forma parte del loop, se decidió que esta tarea tenga código bloqueante, para asegurar la correcta configuración del módulo.
 
 Una vez en el loop, el display esta inactivo hasta recibir un evento de escritura o modificación del backlight. En el caso de ser un evento de escritura, los estados ST_DIS_ACTIVE_01 y ST_DIS_ACTIVE_02 son los encargados de desplazarse entre filas (ST_DIS_ACTIVE_01) y columnas (ST_DIS_ACTIVE_02) enviando el valor almacenado en la matriz a la pantalla.
 
@@ -508,7 +511,7 @@ case ST_DIS_ACTIVE_01:
 
 Una vez finalizado, vuelve al estado de reposo.
 
----
+
 
 # **Capítulo 4**
 # **Ensayos y resultados**
@@ -523,7 +526,7 @@ El circuito definitivo puede observarse en la Figura 4.1.
 
 Dado que se realizó la disposición de pines con anterioridad al inicio de las pruebas (la misma se observa en la Tabla 4.1), se realizó un único protoboard para todas las pruebas, utilizando sólo lo necesario para cada prueba.
 
-| Pin_Arduino | Pin | Tipo | Descripción |
+| Arduino_compatible | Pin | Tipo | Descripción |
 | :-: | :-: | :--: | :---------: |
 | D2 | PA_10 | Salida Digital | LED_1 |
 | D4 | PB_5 | Salida Digital | LED_2 |
@@ -566,7 +569,7 @@ Una vez realizado esto, y con la FSM del system ya realizada, se fueron agregand
 
 En la Tabla 4.3 se detalla el *WCET* de cada máquina de estados y el *WCEP* del sistema.
 
-| Tarea | WCET |
+| Tarea | WCET(µs) |
 | ----- | ---- |
 | Buzzer | 7 |
 | Display | 13 |
@@ -587,6 +590,8 @@ Incluso, considerando el caso extremo (si todo estuviera en su peor condición a
 Esto nos permite determinar que es posible reemplazar el procesador por uno de menores prestaciones.  
 Adicionalmente, hay acciones que podrían optimizarse para disminuir aún más el procesamiento. Por ejemplo, en la realidad las variables ambientales suelen ser lentas, del orden del segundo o superior. Esto permitiría que algunas tareas que hoy se ejecutan en cada milisegundo, pasen a ejecutarse cada 0,5 segundos o incluso más tiempo.
 
+En la Tabla 4.4 se puede observar el análisis detallado de las regiones de memoria realizado con el Build Analyzer.
+
 | Region | Start address | End address | Size | Free | Used | Usage (%) |
 | - | - | - | - | - | - | - |
 | RAM   | 0x20000000 | 0x2004ffff | 20 KB  | 15,64 KB | 4,36 KB  | 21,80 % |
@@ -594,7 +599,7 @@ Adicionalmente, hay acciones que podrían optimizarse para disminuir aún más e
 
 <p align="center"><em>Tabla 4.4: Detalle de Build Analyzer - Memory Region</em></p>
 
-En la Figura 4.x se observa el detalle de la salida de *Console* luego de la compilación final.
+En la Figura 4.4 se observa el detalle de la salida de *Console* luego de la compilación final.
 
 <p align="center"><img src="https://raw.githubusercontent.com/nicopotenza/tdse-tf_2-04/refs/heads/main/MaterialApoyo/Im%C3%A1genes/console.png" alt="console" width="90%"><br>
 
@@ -628,7 +633,19 @@ https://youtu.be/VONTj9oOafY
 ## **4.4 Comparación con otros sistemas similares**
 Si bien este producto no alcanza un grado de desarrollo apto para su comercialización en el momento, y requiere un análisis profundo y pruebas de estabilidad acordes a la criticidad del proceso que debe controlar, preliminarmente, y en base a experiencias personales, se puede apreciar que el costo de esta resolución es significativamente inferior a los sistemas comercializados.
 
----
+## **4.5 Documentación del desarrollo realizado**
+En la siguiente tabla podemos verlos puntos mas importantes a la hora de revisar el trabajo
+
+| Elemento                                   | Referencia     |
+|--------------------------------------------|---------------|
+|Objetivos del proyecto              | 1.2           |
+| Requisitos                                 | 2.1           |
+| Modos de Operación de uso                               | 2.2           |
+| Casos de Uso      | 2.3           |
+| Diseño e Implementacion                       | 3 |
+| Desarrollo del firmware                    | 3.2           |
+| Pruebas                                    | 4.1 – 4.3    |
+
 
 # **Capítulo 5**
 # **Conclusiones**
@@ -661,7 +678,7 @@ Se puede extender el trabajo aquí realizado con las siguientes implementaciones
 8. Cambiar el control lineal por un lazo PID.
 9. Analizar en profundidad las normativas mencionadas en la introducción general para corregir y/o incorporar los requerimientos necesarios para su pasaje a producción.
 
----
+
 
 # **Bibliografía**
 
@@ -674,3 +691,14 @@ Se puede extender el trabajo aquí realizado con las siguientes implementaciones
 [4] LCD-016N002B-CFH-ET - 16 x 2 Character LCD [Online]. Disponible: https://www.vishay.com/docs/37484/lcd016n002bcfhet.pdf
 
 [5] PCF8574 Remote 8-Bit I/O Expander for I2C Bus. [Online]. Disponible: https://www.ti.com/lit/ds/symlink/pcf8574.pdf
+
+# **Uso de IA**
+
+Se documenta el uso de IA según requerimiento.
+
+-Marcos: 
+ - Apoyo en verificación de programacion en STM32
+ - Apoyo en redacción de descripciones
+-Nicolas:
+-Andres:
+-Uso Común:
